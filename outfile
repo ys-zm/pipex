@@ -1,0 +1,7 @@
+total 16
+-rw-r--r--  1 yzaim  student    0 Mar 22 13:45 Makefile
+-rw-r--r--  1 yzaim  student   11 Mar 23 14:13 file1
+-rw-r--r--  1 yzaim  student  494 Mar 22 13:45 file2
+drwxr-xr-x  3 yzaim  student  102 Mar 22 13:45 include
+-rw-r--r--  1 yzaim  student    0 Mar 23 14:14 outfile
+drwxr-xr-x  3 yzaim  student  102 Mar 22 20:48 src
