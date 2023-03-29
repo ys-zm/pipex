@@ -1,60 +1,66 @@
 #include "pipex.h"
-#include <stddef.h>
-
 
 //QUESTIONS
 //whats the difference between _execve or execve();
 
-//compares not more than n characters.
-//return int >, + or < 0. - if s1 is >, + < s2.
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
-{
-	while (n-- > 0)
-	{
-		if (*s1 != *s2)
-			return (*(unsigned char *)s1 - *(unsigned char *)s2);
-		if (*(unsigned char *)s1 == 0 || *(unsigned char *)s2 == 0)
-			return (*s1 - *s2);
-		s1++;
-		s2++;
-	}
-	return (0);
-}
+// size_t	make_pipes(void)
+// {
+// 	//pipe and fork here.
+// 	// return back to the parent after the execution of each command
 
-void	make_pipes(void)
-{
-	//pipe and fork here.
-	// return back to the parent after the execution of each command
+// 	int	fd[2];
+// 	int	parent;
 
-	int	fd[2];
-	int	parent;
+// 	if (pipe(fd) == -1)
+// 	{
+// 		printf("Problem with creating pipes.\n");
+// 		return (1);
+// 	}
+// 	dup2(fd[1], STDOUT_FILENO);
+// 	close(fd[1]);
+// 	parent = fork();
+// 	if (!parent)
+// 	{
+// 		close(fd[0]);
+// 		//Child Process
+// 	}
+// 	else
+// 	{
+// 		//Parent Process
+// 		close(STDOUT_FILENO);
+// 	}
+// }
 
-	if (pipe(fd) == -1)
-	{
-		printf("Problem with creating pipes.\n");
-		return (1);
-	}
-	parent = fork();
-	if (!parent)
-	{
-		//Child Process
-	}
-	else
-	{
-		//Parent Process
-	}
-
-
-	
-}
-
-//add ft_printf that i coded
 //access() to check if the function exists
 int main(int argc, char **argv, char **envp)
 {
-	t_pip	pipex;
-
+	t_cmd	*pipex;
+	int		size;
+	int		i;
+	int		j;
+	
+	j = 0;
+	i = 0;
 	if (argc < 5)
-		write("Wrong input.\n", 13);
-	path_parsing
+	{
+		ft_printf("Wrong input.\n");
+		ft_printf("Usage: ./pipex <infile> <cmd1> ... <cmdn> <outfile>\n");
+		return (1);
+	}
+	size = argc - 3;
+	pipex = ft_calloc(size, sizeof(t_cmd));
+	path_parsing(size, &pipex, envp);
+	parse_commands(size, &pipex, argv);
+
+	while (i < size)
+	{
+		j = 0;
+		printf("%d: ", i);
+		while (j < 2)
+		{
+			printf("%s\n", pipex[i].cmd_and_args[j]);
+			j++;
+		}
+		i++;
+	}
 }

@@ -1,41 +1,32 @@
 #include "pipex.h"
 
-size_t  count_commands(char **argv)
+char  **separate_command_args(char *str)
 {
-    size_t  count;
+    char    **cmd_and_args;
     size_t  i;
 
-    count = 0;
-    i = 2;
-    while (argv[i++])
-        count++;
-    return (count);
-}
-
-size_t  count_strings(char *str)
-{
-
-}
-
-char    **separate_command_flags(char *str)
-{
-    char    *command_flags;
-
-    commands_flags = ft_split(str, " ");
-    return (command_flags);
-}
-
-char    **parse_commands(char **argv)
-{
-    size_t   i;
-    size_t  command_count;
-    char    **command_flags
-    
-    command_count = count_commands(argv);
-    i = 2;
-    while (i < count_commands)
+    i = 0;
+    cmd_and_args = ft_split(str, ' ');
+    while (i < 5)
     {
-
+        printf("%s\n", cmd_and_args[i]);
+        i++;
     }
-
+    return (cmd_and_args);
 }
+
+void    parse_commands(int size, t_cmd **pipex, char **argv)
+{
+    int i;
+    int j;
+
+    i = 0;
+    j = 2;
+    while (i < size)
+    {
+        (*pipex)[i].cmd_and_args = separate_command_args(argv[j]);
+        i++;
+        j++;
+    }
+}
+

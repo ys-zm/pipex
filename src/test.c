@@ -6,7 +6,7 @@
 /*   By: yzaim <yzaim@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/23 15:45:01 by yzaim         #+#    #+#                 */
-/*   Updated: 2023/03/23 17:55:29 by yzaim         ########   odam.nl         */
+/*   Updated: 2023/03/29 17:27:49 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,31 +15,31 @@
 # include <fcntl.h>
 # include <unistd.h>
 
-// int main(void)
-// {
-//     int fd = open("jo", O_RDWR);
-//     char *cmd[] = {"/usr/bin/wc", NULL};
-//     char *cmd1[] = {"/bin/echo", "something", NULL};
-//     int p[2];
-//     // dup2(fd, 0);
-//     // char buffer[10];
-//     // read(fd, buffer, 5);
-//     // buffer[5] = '\0';
-//     pipe(p);
-//     pid_t pid = fork();
-//     if (pid == 0)
-//     {
-//         close(p[1]);
-//         dup2(p[0], 0);
-//         close(p[0]);
-//         execve(cmd[0], cmd, NULL);
-//         exit(0);
-//     }
-//     close(p[0]);
-//     dup2(p[1], 1);
-//     close(p[1]);
-//     execve(cmd1[0], cmd1, NULL);
-// }
+int main(void)
+{
+    int fd = open("jo", O_RDWR);
+    char *cmd[] = {"/usr/bin/wc", NULL};
+    char *cmd1[] = {"/bin/echo", "something", NULL};
+    int p[2];
+    // dup2(fd, 0);
+    // char buffer[10];
+    // read(fd, buffer, 5);
+    // buffer[5] = '\0';
+    pipe(p);
+    pid_t pid = fork();
+    if (pid == 0)
+    {
+        close(p[1]);
+        dup2(p[0], 0);
+        close(p[0]);
+        execve(cmd[0], cmd, NULL);
+        exit(0);
+    }
+    close(p[0]);
+    dup2(p[1], 1);
+    close(p[1]);
+    execve(cmd1[0], cmd1, NULL);
+}
 
 int main(void)
 {
