@@ -1,1 +1,7 @@
-//error handling should be the same. the exit status should be the same as in bash. bash gives the exit status of the last command in the pipe
+#include "pipex.h"
+
+void    ft_error_msg(const char *str, int error)
+{
+    perror(str);
+    exit(error);
+}

@@ -1,0 +1,1 @@
+//error handling should be the same. the exit status should be the same as in bash. bash gives the exit status of the last command in the pipe

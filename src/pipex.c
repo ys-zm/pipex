@@ -1,66 +1,50 @@
 #include "pipex.h"
+#include <sys/wait.h>
 
 //QUESTIONS
 //whats the difference between _execve or execve();
+void	make_pipes(int fd_in, int fd_out, char **argv, char **envp)
+{
+	int		fd[2];
+	pid_t	pid1;
+	pid_t	pid2;
+	int		status;
 
-// size_t	make_pipes(void)
-// {
-// 	//pipe and fork here.
-// 	// return back to the parent after the execution of each command
+	if (pipe(fd) == -1)
+		ft_error_msg("Problem with creating pipes.", 1);
+	pid1 = fork();
+	if (pid1 < 0)
+		ft_error_msg("Error with fork 1.", 1);
+	else if (pid1 == 0)
+		child_one(fd, fd_in, argv, envp);
+	pid2 = fork();
+	if (pid2 < 0)
+		ft_error_msg("Error with fork 2.", 1);
+	else if (pid2 == 0)
+		child_two(fd, fd_out, argv, envp);
+	close(fd[READ]);
+	close(fd[WRITE]);
+	waitpid(pid1, &status, NULL);
+	wait(NULL);
+	close(fd_in);
+	close(fd_out);
+}
 
-// 	int	fd[2];
-// 	int	parent;
-
-// 	if (pipe(fd) == -1)
-// 	{
-// 		printf("Problem with creating pipes.\n");
-// 		return (1);
-// 	}
-// 	dup2(fd[1], STDOUT_FILENO);
-// 	close(fd[1]);
-// 	parent = fork();
-// 	if (!parent)
-// 	{
-// 		close(fd[0]);
-// 		//Child Process
-// 	}
-// 	else
-// 	{
-// 		//Parent Process
-// 		close(STDOUT_FILENO);
-// 	}
-// }
-
-//access() to check if the function exists
 int main(int argc, char **argv, char **envp)
 {
-	t_cmd	*pipex;
-	int		size;
-	int		i;
-	int		j;
+	int		fd_in;
+	int		fd_out;
 	
-	j = 0;
-	i = 0;
-	if (argc < 5)
+	if (argc != 5)
 	{
 		ft_printf("Wrong input.\n");
 		ft_printf("Usage: ./pipex <infile> <cmd1> ... <cmdn> <outfile>\n");
 		return (1);
 	}
-	size = argc - 3;
-	pipex = ft_calloc(size, sizeof(t_cmd));
-	path_parsing(size, &pipex, envp);
-	parse_commands(size, &pipex, argv);
 
-	while (i < size)
-	{
-		j = 0;
-		printf("%d: ", i);
-		while (j < 2)
-		{
-			printf("%s\n", pipex[i].cmd_and_args[j]);
-			j++;
-		}
-		i++;
-	}
+	fd_in = open(argv[1], O_RDONLY);
+	if (fd_in < 0)
+		ft_error_msg("Infile does not exist.\n", 1);
+	fd_out = open(argv[4], O_TRUNC | O_WRONLY | O_CREAT, 0664);
+	make_pipes(fd_in, fd_out, argv, envp);
 }
