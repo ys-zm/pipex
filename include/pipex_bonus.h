@@ -12,18 +12,34 @@
 # define READ 0
 # define WRITE 1
 
+
 typedef struct s_cmd
 {
-    char    *cmd_path;
     char    **args;
-    int     *fd_in;
-    int     *fd_out;
 }   t_cmd;
 
-size_t  path_parsing(int size, t_cmd **pipex, char **envp);
+typedef struct s_pipex
+{
+    char    **paths;
+    t_cmd   *cmds;
+    int     fd_in;
+    int     fd_out;
+    int     **pipes;
+    int     *pid;
+    int     size;
+}   t_pipex;
+
+void    path_parsing(t_pipex *pipex, char **envp);
 void    parse_commands(int size, t_cmd **pipex, char **argv);
+void    ft_error_msg(const char *str, int error);
+void    common_child_actions(t_pipex *pipex, char **envp, int pos);
+void    process_management(t_pipex *pipex, char **envp);
+
+void    first_child(t_pipex *pipex, char **envp);
+void    mid_child(t_pipex *pipex, char **envp, int pos);
+void    last_child(t_pipex *pipex, char **envp, int pos);
+
+char	*check_access(t_pipex *pipex, int pos);
+void    common_child_actions(t_pipex *pipex, char **envp, int pos);
 
 #endif
-
-//open files and create outfile if it doesnt exist
-//dup2//exec v
