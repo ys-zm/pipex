@@ -3,46 +3,39 @@ CC = gcc
 C_FLAGS = -Wall -Werror -Wextra
 F_SAN = -g -fsanitize=address
 
-ifdef BONUS
-SRC_FILES = pipex_bonus.c \
-			env_parsing_bonus.c \
-			error_handling_bonus.c \
-			children_bonus.c \
-			process_bonus.c 
-else
 SRC_FILES = pipex.c \
 		env_parsing.c \
 		command_parsing.c \
 		error_handling.c \
 		children.c
+
+ifdef WITH_BONUS
+SRC_FILES = pipex_bonus.c \
+			env_parsing_bonus.c \
+			error_handling_bonus.c \
+			children_bonus.c \
+			process_bonus.c 
 endif
 
-ifdef BONUS
-SRC_DIR = bonus
-elseif
 SRC_DIR = src
+
+ifdef WITH_BONUS
+SRC_DIR = bonus
 endif
 
 OBJ_DIR = obj
-
-ifdef BONUS
-OBJ = $(addprefix $(OBJ_DIR)/, $(BONUS_FILES:.c=.o))
-elseif
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC_FILES:.c=.o))
-endif
 
 INCLUDES = -Iinclude -Ilibft/include
 LIBFT = libft/libft.a
 
 all: $(NAME)
 
-bonus: $(NAME) BONUS=1 all
-
 $(LIBFT):
 	@cd libft && make
 
 $(NAME): $(OBJ) $(LIBFT)
-	@$(CC) $(C_FLAGS) $(F_SAN) $^ $(INCLUDES) -o $@
+	@$(CC) $(C_FLAGS) $^ $(INCLUDES) -o $@
 	@echo pipex made!
 
 $(OBJ_DIR):
@@ -50,6 +43,9 @@ $(OBJ_DIR):
 	
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 	@$(CC) $(C_FLAGS) $(INCLUDES) -c $< -o $@ 
+
+bonus: fclean
+	@$(MAKE) WITH_BONUS=1 all
 
 clean:
 	@rm -rf $(OBJ_DIR)
@@ -68,4 +64,4 @@ re: fclean all
 
 rere: fclean depclean all
 
-.PHONY: all re clean fclean
+.PHONY: all re clean fclean bonus rere 

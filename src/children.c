@@ -47,7 +47,7 @@ void	exe_cmd(char **cmd, char **envp)
     ft_error_msg(cmd_path, 1);
 }
 
-void	child_one(int *fd, int fd_in, char **argv, char **envp, int child_num)
+void	child_one(int *fd, int fd_in, char **argv, char **envp)
 {
 	char	**cmd;
 
