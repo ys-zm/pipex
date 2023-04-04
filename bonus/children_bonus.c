@@ -57,7 +57,7 @@ void    common_child_actions(t_pipex *pipex, char **envp, int pos)
     char    *cmd_path;
     cmd_path = check_access(pipex, pos);
     if (!cmd_path)
-		ft_error_msg("Command not found.\n", 1);
+		ft_error_msg("Command not found.\n", 127);
 	execve(cmd_path, pipex->cmds[pos].args, envp);
     ft_error_msg(cmd_path, 1);
 }

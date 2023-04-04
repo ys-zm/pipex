@@ -34,18 +34,6 @@ void    print_array(char **array)
     }
 }
 
-// void	allocate_ints(t_pipex *pipex)
-// {
-// 	int	pipe;
-
-// 	pipe = 0;
-// 	while (pipe < pipex->size)
-// 	{
-// 		pipex->pipes[pipe] = malloc(sizeof(int) * 2);
-// 		pipe++;
-// 	}
-// }
-
 void	separate_cmd_arguments(t_pipex *pipex, char **argv)
 {
 	int	i;
@@ -65,8 +53,6 @@ void	ft_init(t_pipex *pipex, char **argv)
 {
 	
 	pipex->pid = malloc(sizeof(int) * pipex->size);
-	// pipex->pipes = malloc(pipex->size * sizeof(int *));
-	// allocate_ints(pipex);
 	pipex->pipes = malloc(sizeof(t_fd) * pipex->size - 1);
 	pipex->cmds = malloc(sizeof(t_cmd) * pipex->size);
 	separate_cmd_arguments(pipex, argv);
@@ -89,5 +75,6 @@ int main(int argc, char **argv, char **envp)
 	path_parsing(&pipex, envp);
 	ft_init(&pipex, argv);
 	create_pipes(&pipex);
-	process_management(&pipex, envp, argv);
+	parent_process(&pipex, envp, argv);
+	exit_pipes(&pipex);
 }

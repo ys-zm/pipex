@@ -14,10 +14,27 @@ void    close_pipes(t_pipex *pipex)
     }
 }
 
-void    parent_process(t_pipex *pipex)
+void    wait_for_children(t_pipex *pipex)
 {
+    int i;
+    int status;
+
+    i = 0;
+    while (i < pipex->size)
+    {
+        waitpid(pipex->pid[i], &status, 0);
+        if (WIFEXITED(status))
+            pipex->status = WEXITSTATUS(status);
+        i++;
+    }
+}
+
+void    parent_process(t_pipex *pipex, char **envp, char **argv)
+{
+    process_management(pipex, envp, argv);
     close_pipes(pipex);
-    wait(NULL);
+    wait_for_children(pipex);
+
 }
 
 void    process_management(t_pipex *pipex, char **envp, char **argv)
@@ -25,7 +42,6 @@ void    process_management(t_pipex *pipex, char **envp, char **argv)
     int i;
 
     i = 0;
-    printf("first c pos: %d\n", i);
     pipex->pid[i] = fork();
     if (pipex->pid[i] == 0)
         first_child(pipex, envp);
@@ -34,7 +50,6 @@ void    process_management(t_pipex *pipex, char **envp, char **argv)
     i++;
     while (i < pipex->size - 1)
     {
-        printf("mid c pos: %d\n", i);
         pipex->pid[i] = fork();
         if (pipex->pid[i] == 0)
             mid_child(pipex, envp, i);
@@ -43,10 +58,8 @@ void    process_management(t_pipex *pipex, char **envp, char **argv)
    } 
     if (i == pipex->size - 1)
     {
-        printf("last c pos: %d\n", i);
         pipex->pid[i] = fork();
         if (pipex->pid[i] == 0)
             last_child(pipex, envp, i, argv);
     }
-    parent_process(pipex);
 }

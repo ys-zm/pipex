@@ -28,11 +28,12 @@ typedef struct s_pipex
     t_cmd   *cmds;
     int     fd_in;
     int     fd_out;
-    // int     **pipes;
-    int     *pid;
+    pid_t     *pid;
     int     size;
     t_fd    *pipes;
     int     fd_out_pos;
+    int     status;
+
 }   t_pipex;
 
 void    path_parsing(t_pipex *pipex, char **envp);
@@ -41,6 +42,7 @@ void    ft_error_msg(const char *str, int error);
 void    common_child_actions(t_pipex *pipex, char **envp, int pos);
 void    process_management(t_pipex *pipex, char **envp, char **argv);
 
+void    parent_process(t_pipex *pipex, char **envp, char **argv);
 void    first_child(t_pipex *pipex, char **envp);
 void    mid_child(t_pipex *pipex, char **envp, int pos);
 void    last_child(t_pipex *pipex, char **envp, int pos, char **argv);
@@ -49,5 +51,6 @@ char	*check_access(t_pipex *pipex, int pos);
 void    common_child_actions(t_pipex *pipex, char **envp, int pos);
 
 void    print_array(char **array);
+void    exit_pipes(t_pipex *pipex);
 
 #endif
