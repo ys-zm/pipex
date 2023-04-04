@@ -5,9 +5,9 @@ void	create_pipes(t_pipex *pipex)
 	int	i;
 
 	i = 0;
-	while (i < pipex->size)
+	while (i < pipex->size - 1)
 	{
-		if (pipe(pipex->pipes[i]) == -1)
+		if (pipe(pipex->pipes[i].fd) == -1)
 			ft_error_msg("Opening pipes failed.\n", 1);
 		i++;
 	}
@@ -21,42 +21,60 @@ char  **separate_command_args(char *str)
     return (cmd_and_args);
 }
 
-size_t	check_if_args(char *str)
+void    print_array(char **array)
 {
-	while (*str && *str != ' ')
-		str++;
-	if (*str && *str == ' ')
-		return (1);
-	return (0);
+    int i;
 
+    i = 0;
+    while(array[i])
+    {
+        write(STDERR_FILENO, array[i], ft_strlen(array[i]));
+        write(STDERR_FILENO, "\n", 1);
+        i++;
+    }
 }
 
-void	ft_init(t_pipex *pipex, int n_of_cmds, char **argv)
+// void	allocate_ints(t_pipex *pipex)
+// {
+// 	int	pipe;
+
+// 	pipe = 0;
+// 	while (pipe < pipex->size)
+// 	{
+// 		pipex->pipes[pipe] = malloc(sizeof(int) * 2);
+// 		pipe++;
+// 	}
+// }
+
+void	separate_cmd_arguments(t_pipex *pipex, char **argv)
 {
 	int	i;
 	int	j;
 
 	i = 0;
 	j = 2;
-	pipex->size = n_of_cmds;
-	pipex->pipes = malloc(sizeof(int) * n_of_cmds * 2);
-	pipex->cmds = malloc(sizeof(t_cmd) * n_of_cmds);
-	pipex->pid = malloc(sizeof(int) * n_of_cmds);
-	while (i < n_of_cmds)
+	while (i < pipex->size)
 	{
-		if (check_if_args(argv[j]))
-			pipex->cmds[i].args = ft_split(argv[j], ' ');
-		else
-			pipex->cmds[i].args[0] = argv[j];
+		pipex->cmds[i].args = ft_split(argv[j], ' ');
 		i++;
 		j++;
 	}
 }
 
+void	ft_init(t_pipex *pipex, char **argv)
+{
+	
+	pipex->pid = malloc(sizeof(int) * pipex->size);
+	// pipex->pipes = malloc(pipex->size * sizeof(int *));
+	// allocate_ints(pipex);
+	pipex->pipes = malloc(sizeof(t_fd) * pipex->size - 1);
+	pipex->cmds = malloc(sizeof(t_cmd) * pipex->size);
+	separate_cmd_arguments(pipex, argv);
+}
+
 int main(int argc, char **argv, char **envp)
 {
 	t_pipex	pipex;
-
 	
 	if (argc < 5)
 	{
@@ -67,7 +85,9 @@ int main(int argc, char **argv, char **envp)
 	pipex.fd_in = open(argv[1], O_RDONLY);
 	if (pipex.fd_in == -1)
 		ft_error_msg("Failed to open infile.\n", 1);
-	ft_init(&pipex, argc - 3, argv);
+	pipex.size = argc - 3;
+	path_parsing(&pipex, envp);
+	ft_init(&pipex, argv);
 	create_pipes(&pipex);
-	process_management(&pipex, envp);
+	process_management(&pipex, envp, argv);
 }
