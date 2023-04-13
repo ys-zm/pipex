@@ -1,5 +1,5 @@
-#ifndef PIPEX_H
-#define PIPEX_H
+#ifndef PIPEX_BONUS_H
+#define PIPEX_BONUS_H
 
 #include <stdio.h>
 #include <unistd.h>
@@ -8,6 +8,7 @@
 #include <stddef.h>
 #include "libft.h"
 #include <fcntl.h>
+#include <sys/wait.h>
 
 # define READ 0
 # define WRITE 1

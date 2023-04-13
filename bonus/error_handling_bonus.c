@@ -8,5 +8,6 @@ void    ft_error_msg(const char *str, int error)
 
 void    exit_pipes(t_pipex *pipex)
 {
+    //free the stuff
     exit(pipex->status);
 }

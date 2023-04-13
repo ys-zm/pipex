@@ -1,13 +1,1 @@
-total 104
--rw-r--r--  1 yzaim  student   1069 Apr  4 19:32 Makefile
-drwxr-xr-x  7 yzaim  student    238 Apr  4 13:08 bonus
-drwxr-xr-x  4 yzaim  student    136 Apr  3 12:42 include
--rw-r--r--  1 yzaim  student      0 Apr  4 13:12 infile
-drwxr-xr-x  7 yzaim  student    238 Apr  3 17:26 libft
-drwxr-xr-x  7 yzaim  student    238 Apr  4 19:33 obj
--rw-r--r--  1 yzaim  student      0 Apr  4 19:33 outfile
--rwxr-xr-x  1 yzaim  student  19276 Apr  4 19:33 pipex
--rwxrwxrwx  1 yzaim  student  16404 Apr  4 15:34 run_test.sh
-drwxr-xr-x  7 yzaim  student    238 Apr  3 15:52 src
--rw-r--r--  1 yzaim  student   2101 Apr  3 12:15 test.c
--rw-r--r--  1 yzaim  student   1629 Apr  3 12:15 try_outs.c
+       0

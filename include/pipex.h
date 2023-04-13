@@ -19,6 +19,7 @@ char    **separate_command_args(char *str);
 void    ft_error_msg(const char *str, int error);
 void	child_one(int *fd, int fd_in, char **argv, char **envp);
 void	child_two(int *fd, int fd_out, char **argv, char **envp);
+void    exit_pipes(int status);
 
 
 #endif
