@@ -1,7 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   children_bonus.c                                   :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: yzaim <marvin@codam.nl>                      +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/04/14 16:35:00 by yzaim         #+#    #+#                 */
+/*   Updated: 2023/04/14 19:11:40 by yzaim         ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "pipex_bonus.h"
 
-void    first_child(t_pipex *pipex, char **envp)
+void    first_child(t_pipex *pipex, char **envp, char *file_in)
 {
+    pipex->fd_in = open(file_in, O_RDONLY);
+    if (pipex->fd_in == -1)
+        ft_error_msg("file_in", 1);
     close(pipex->pipes[0].fd[READ]);
     dup2(pipex->fd_in, STDIN_FILENO);
     close(pipex->fd_in);
@@ -32,32 +47,11 @@ void    last_child(t_pipex *pipex, char **envp, int pos, char **argv)
     common_child_actions(pipex, envp, pos);
 }
 
-char	*check_access(t_pipex *pipex, int pos)
-{
-	int		i;
-	char	*add_slash;
-	char	*cmd_path;
-   
-	i = 0;
-	while (pipex->paths && pipex->paths[i])
-	{
-		add_slash = ft_strjoin(pipex->paths[i], "/");
-		cmd_path = ft_strjoin(add_slash, pipex->cmds[pos].args[0]);
-		free(add_slash);
-		if (!access(cmd_path, X_OK))
-			return (cmd_path);
-		free(cmd_path);
-		i++;
-	}
-	return (NULL);
-}
-
 void    common_child_actions(t_pipex *pipex, char **envp, int pos)
 {
     char    *cmd_path;
+
     cmd_path = check_access(pipex, pos);
-    if (!cmd_path)
-		ft_error_msg("Command not found.\n", 127);
 	execve(cmd_path, pipex->cmds[pos].args, envp);
-    ft_error_msg(cmd_path, 1);
+    ft_error_msg(cmd_path, 127);
 }

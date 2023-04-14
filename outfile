@@ -1,1 +1,12 @@
-       0
+Makefile
+bonus
+include
+infile
+libft
+obj
+outfile
+pipex
+run_test.sh
+src
+test.c
+try_outs.c

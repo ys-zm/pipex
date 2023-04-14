@@ -4,17 +4,19 @@ C_FLAGS = -Wall -Werror -Wextra
 F_SAN = -g -fsanitize=address
 
 SRC_FILES = pipex.c \
-		env_parsing.c \
-		command_parsing.c \
+		parsing.c \
 		error_handling.c \
-		children.c
+		children.c \
+		check_access.c
 
 ifdef WITH_BONUS
 SRC_FILES = pipex_bonus.c \
-			env_parsing_bonus.c \
+			parsing_bonus.c \
 			error_handling_bonus.c \
 			children_bonus.c \
-			process_bonus.c 
+			process_bonus.c \
+			init_bonus.c \
+			check_access_bonus.c
 endif
 
 SRC_DIR = src
