@@ -1,5 +1,15 @@
 #include "pipex_bonus.h"
 
+char **ft_empty_str(char *str)
+{
+	char **arr;
+
+	arr = malloc(sizeof(char *) * 2);
+	arr[0] = ft_strdup(str);
+	arr[1] = NULL;
+	return (arr);
+}
+
 void	separate_cmd_arguments(t_pipex *pipex, char **argv)
 {
 	int	i;
@@ -9,7 +19,14 @@ void	separate_cmd_arguments(t_pipex *pipex, char **argv)
 	j = 2;
 	while (i < pipex->size)
 	{
-		pipex->cmds[i].args = ft_split(argv[j], ' ');
+		if (check_empty_str(argv[j]))
+			pipex->cmds[i].args = ft_empty_str(argv[j]);
+		else
+		{
+			pipex->cmds[i].args = ft_split(argv[j], ' ');
+			if (pipex->cmds[i].args == NULL)
+				malloc_protect(pipex, NULL);
+		}	
 		i++;
 		j++;
 	}

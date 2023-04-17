@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@codam.nl>                      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/14 16:28:18 by yzaim         #+#    #+#                 */
-/*   Updated: 2023/04/14 16:52:44 by yzaim         ########   odam.nl         */
+/*   Updated: 2023/04/17 19:19:51 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,15 @@ void	exe_cmd(char **cmd, char **envp)
 {
 	char	*cmd_path;
 
-	cmd_path = check_access(cmd, envp);
+	if (cmd && *cmd)
+	{
+		cmd_path = check_access(cmd, envp);
+		malloc_protect(cmd_path);
+	}
+	else
+		cmd_path = ft_strdup("");
 	execve(cmd_path, cmd, envp);
+	free(cmd_path);
 	ft_error_msg(cmd_path, 127);
 }
 

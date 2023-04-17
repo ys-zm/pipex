@@ -9,6 +9,7 @@
 #include "libft.h"
 #include <fcntl.h>
 #include <sys/wait.h>
+#include <stdbool.h>
 
 # define READ 0
 # define WRITE 1
@@ -29,12 +30,14 @@ void	exe_cmd(char **cmd, char **envp);
 
 //Parsing Functions - parsing.c
 char    **path_parsing(char **envp);
+bool	check_empty_str(char *str);
 char    **separate_command_args(char *str);
 
 // Error Handling Functions - error_handling.c
 void    ft_error_msg(const char *str, int error);
 void    exit_pipes(int status);
 void	print_array(char **array);
+void	malloc_protect(void	*var);
 
 // Functions To Check Access To Env Paths
 char	*check_access(char **cmd_and_args, char **envp);

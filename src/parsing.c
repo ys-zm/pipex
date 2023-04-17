@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@codam.nl>                      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/14 16:33:29 by yzaim         #+#    #+#                 */
-/*   Updated: 2023/04/14 16:34:49 by yzaim         ########   odam.nl         */
+/*   Updated: 2023/04/17 20:27:22 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,30 @@ char	**path_parsing(char **envp)
 	return (NULL);
 }
 
+bool	check_empty_str(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (str && str[i] == '\0')
+		return (true);
+	while (str && str[i] && str[i] == ' ')
+		i++;
+	if (str[i] == '\0')
+		return (true);
+	return (false);
+}
+
 char	**separate_command_args(char *str)
 {
 	char	**cmd_and_args;
 
-	cmd_and_args = ft_split(str, ' ');
+	cmd_and_args = NULL;
+	if (!check_empty_str(str))
+	{
+		cmd_and_args = ft_split(str, ' ');
+		if (cmd_and_args == NULL)
+			malloc_protect(cmd_and_args);
+	}
 	return (cmd_and_args);
 }

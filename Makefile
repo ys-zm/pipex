@@ -1,6 +1,6 @@
 NAME = pipex
 CC = gcc
-C_FLAGS = -Wall -Werror -Wextra
+C_FLAGS = -Wall -Werror -Wextra -g
 F_SAN = -g -fsanitize=address
 
 SRC_FILES = pipex.c \
@@ -65,5 +65,10 @@ depclean:
 re: fclean all
 
 rere: fclean depclean all
+
+mem:
+	memdetect/memdetect.sh . $(GCC_FLAGS) $(LIBFT) $(INCLUDES) --exclude test.c try_outs.c src -a "infile cat \"wc -l\" outfile"
+run: all
+	./pipex infile cat " " outfile
 
 .PHONY: all re clean fclean bonus rere 

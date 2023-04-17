@@ -9,6 +9,7 @@
 #include "libft.h"
 #include <fcntl.h>
 #include <sys/wait.h>
+#include <stdbool.h>
 
 # define READ 0
 # define WRITE 1
@@ -29,10 +30,10 @@ typedef struct s_pipex
     t_cmd   *cmds;
     int     fd_in;
     int     fd_out;
-    pid_t     *pid;
+    int     *pid;
     int     size;
     t_fd    *pipes;
-    int     fd_out_pos;
+    // int     fd_out_pos;
     int     status;
 
 }   t_pipex;
@@ -60,10 +61,12 @@ void    common_child_actions(t_pipex *pipex, char **envp, int pos);
 
 // Path Parsing Function - parsing_bonus.c
 void    path_parsing(t_pipex *pipex, char **envp);
+bool	check_empty_str(char *str);
 
 //Error Handling Functions - error_handling_bonus.c
 void    ft_error_msg(const char *str, int error);
 void    exit_pipes(t_pipex *pipex);
 void    print_array(char **array);
+void	malloc_protect(t_pipex *pipex, void	*var);
 
 #endif

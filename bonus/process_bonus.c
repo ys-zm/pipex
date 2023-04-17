@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@codam.nl>                      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/14 16:35:00 by yzaim         #+#    #+#                 */
-/*   Updated: 2023/04/14 20:52:08 by yzaim         ########   odam.nl         */
+/*   Updated: 2023/04/17 15:22:54 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,19 +24,12 @@ void    close_pipes(t_pipex *pipex)
         i++;
     }
 }
-//system("lsof -c pipex");
 
 void    wait_for_children(t_pipex *pipex)
 {
     int i;
     int status;
 
-    close(STDIN_FILENO);
-    close(STDOUT_FILENO);
-    close(pipex->fd_in);
-    close(pipex->fd_out);
-    close_pipes(pipex);
-    
     i = 0;
     while (i < pipex->size)
     {
@@ -44,8 +37,9 @@ void    wait_for_children(t_pipex *pipex)
         if (WIFEXITED(status))
             pipex->status = WEXITSTATUS(status);
         i++;
-    } 
+    }
 }
+
 
 void    process_management(t_pipex *pipex, char **envp, char **argv)
 {
@@ -54,32 +48,38 @@ void    process_management(t_pipex *pipex, char **envp, char **argv)
     i = 0;
     pipex->pid[i] = fork();
     if (pipex->pid[i] == 0)
-        first_child(pipex, envp, argv[1]);
-   else
-   {
+    {
+        first_child(pipex, envp, argv[1]); 
+    }  
+    else
+    {
     i++;
     while (i < pipex->size - 1)
     {
         pipex->pid[i] = fork();
         if (pipex->pid[i] == 0)
+        {
             mid_child(pipex, envp, i);
+        }
         i++;
     }
-   } 
+    } 
     if (i == pipex->size - 1)
     {
         pipex->pid[i] = fork();
         if (pipex->pid[i] == 0)
+        {
             last_child(pipex, envp, i, argv);
+        }
     }
-    close(STDIN_FILENO);
-    close(STDOUT_FILENO);
-    close(pipex->fd_in);
-    close(pipex->fd_out);
+    close(pipex->pipes[i - 1].fd[WRITE]);
 }
 
 void    parent_process(t_pipex *pipex, char **envp, char **argv)
 {
     process_management(pipex, envp, argv);
+    close(pipex->fd_in);
+    close(pipex->fd_out);
+    close_pipes(pipex);
     wait_for_children(pipex);
 }

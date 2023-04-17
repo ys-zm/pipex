@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   env_parsing_bonus.c                                :+:    :+:            */
+/*   parsing_bonus.c                                    :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: yzaim <marvin@codam.nl>                      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/14 16:35:00 by yzaim         #+#    #+#                 */
-/*   Updated: 2023/04/14 16:58:30 by yzaim         ########   odam.nl         */
+/*   Updated: 2023/04/17 20:27:13 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,18 @@ void    path_parsing(t_pipex *pipex, char **envp)
     }
     else
         pipex->paths = NULL;
+}
+
+bool	check_empty_str(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (str && str[i] == '\0')
+		return (true);
+	while (str && str[i] && str[i] == ' ')
+		i++;
+	if (str[i] == '\0')
+		return (true);
+	return (false);
 }
