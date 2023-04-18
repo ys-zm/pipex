@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@codam.nl>                      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/14 16:28:18 by yzaim         #+#    #+#                 */
-/*   Updated: 2023/04/17 18:40:23 by yzaim         ########   odam.nl         */
+/*   Updated: 2023/04/18 12:42:56 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,7 @@ char	*check_access(char **cmd_and_args, char **envp)
 {
 	char	**env_path;
 	char	*cmd_path;
-	int		i;
 
-	i = 0;
 	cmd_path = NULL;
 	env_path = path_parsing(envp);
 	if (!access(cmd_and_args[0], X_OK))

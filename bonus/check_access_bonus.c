@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@codam.nl>                      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/14 16:35:00 by yzaim         #+#    #+#                 */
-/*   Updated: 2023/04/17 20:19:47 by yzaim         ########   odam.nl         */
+/*   Updated: 2023/04/18 15:05:16 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,26 +47,23 @@ char	*check_current_directory(char *cmd)
 
 char	*check_access(t_pipex *pipex, int pos)
 {
-	int		i;
 	char	*cmd_path;
-   
-	i = 0;
+
 	cmd_path = NULL;
-    if (!access(pipex->cmds[pos].args[0], X_OK))
-        return(pipex->cmds[pos].args[0]);
-    else if (pipex->paths)
-    {
-        cmd_path = check_env_paths(pipex->paths, pipex->cmds[pos].args[0]);
-        if (cmd_path)
-            return (cmd_path);
-        free(cmd_path);
-    }
-    else
-    {
-        cmd_path = check_current_directory(pipex->cmds[pos].args[0]);
-        if (cmd_path)
-            return (cmd_path);
-    }
-	
+	if (!access(pipex->cmds[pos].args[0], X_OK))
+		return (pipex->cmds[pos].args[0]);
+	else if (pipex->paths)
+	{
+		cmd_path = check_env_paths(pipex->paths, pipex->cmds[pos].args[0]);
+		if (cmd_path)
+			return (cmd_path);
+		free(cmd_path);
+	}
+	else
+	{
+		cmd_path = check_current_directory(pipex->cmds[pos].args[0]);
+		if (cmd_path)
+			return (cmd_path);
+	}
 	return (NULL);
 }

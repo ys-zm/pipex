@@ -1,53 +1,60 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   pipex_bonus.c                                      :+:    :+:            */
+/*   free_bonus.c                                       :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: yzaim <marvin@codam.nl>                      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/14 16:35:00 by yzaim         #+#    #+#                 */
-/*   Updated: 2023/04/18 15:12:53 by yzaim         ########   odam.nl         */
+/*   Updated: 2023/04/18 15:08:32 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
-void	ft_leaks(void)
-{
-	system("leaks -q pipex");
-}
-
-void	create_pipes(t_pipex *pipex)
+void	free_ints_arr(t_pipex *pipex)
 {
 	int	i;
 
 	i = 0;
 	while (i < pipex->size - 1)
 	{
-		if (pipe(pipex->pipes[i]) == -1)
-		{
-			ft_free_all(pipex);
-			ft_error_msg("Opening pipes failed.\n", 1);
-		}
+		free(pipex->pipes[i]);
 		i++;
 	}
+	free(pipex->pipes);
 }
 
-int	main(int argc, char **argv, char **envp)
+void	free_strings(char **arr)
 {
-	t_pipex	pipex;
+	int	i;
 
-	if (argc < 5)
+	i = 0;
+	while (arr && arr[i])
 	{
-		ft_printf("Wrong input.\n");
-		ft_printf("Usage: ./pipex <infile> <cmd1> ... <cmdn> <outfile>\n");
-		return (1);
+		free(arr[i]);
+		i++;
 	}
-	set_up_struct(&pipex);
-	pipex.size = argc - 3;
-	path_parsing(&pipex, envp);
-	ft_init(&pipex, argv);
-	create_pipes(&pipex);
-	parent_process(&pipex, envp, argv);
-	exit_pipes(&pipex);
+	free(arr);
+}
+
+void	free_cmd_struct(t_pipex *pipex)
+{
+	int	i;
+
+	i = 0;
+	while (i < pipex->size)
+	{
+		free_strings(pipex->cmds[i].args);
+		i++;
+	}
+	free(pipex->cmds);
+}
+
+void	ft_free_all(t_pipex *pipex)
+{
+	free_cmd_struct(pipex);
+	free_ints_arr(pipex);
+	free_strings(pipex->paths);
+	free(pipex->pid);
 }

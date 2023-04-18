@@ -1,9 +1,0 @@
-      30
-[1;34m(MALLOC_REPORT)[0m
-	Malloc calls: [34m0[0m
-	Free calls: [34m0[0m
-	Free calls to 0x0: [34m0[0m
-[1;34mLeaks at exit:
-[0m[1;34mTotal leaks: 0
-WARNING:[0m the leaks freed by exit() are still displayed in the report
-[0m

@@ -16,7 +16,8 @@ SRC_FILES = pipex_bonus.c \
 			children_bonus.c \
 			process_bonus.c \
 			init_bonus.c \
-			check_access_bonus.c
+			check_access_bonus.c \
+			free_bonus.c
 endif
 
 SRC_DIR = src

@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   init_bonus.c                                       :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: yzaim <marvin@codam.nl>                      +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/04/18 15:11:44 by yzaim         #+#    #+#                 */
+/*   Updated: 2023/04/18 15:12:20 by yzaim         ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "pipex_bonus.h"
 
-char **ft_empty_str(char *str, t_pipex *pipex)
+char	**ft_empty_str(char *str, t_pipex *pipex)
 {
-	char **arr;
+	char	**arr;
 
 	arr = malloc(sizeof(char *) * 2);
 	if (!arr)
@@ -36,17 +48,33 @@ void	separate_cmd_arguments(t_pipex *pipex, char **argv)
 	}
 }
 
+void	set_up_struct(t_pipex *pipex)
+{
+	pipex->paths = NULL;
+	pipex->cmds = NULL;
+	pipex->fd_in = 0;
+	pipex->fd_out = 0;
+	pipex->pid = NULL;
+	pipex->pipes = NULL;
+	pipex->status = 0;
+}
+
 void	ft_init(t_pipex *pipex, char **argv)
 {
-	
+	int	i;
+
+	i = 0;
 	pipex->pid = malloc(sizeof(pid_t) * pipex->size);
-	if (!pipex->pid)
-		malloc_protect(pipex, NULL);
-	pipex->pipes = malloc(sizeof(t_fd) * pipex->size - 1);
-	if (!pipex->pipes)
-		malloc_protect(pipex, NULL);
+	pipex->pipes = malloc(sizeof(int *) * (pipex->size - 1));
 	pipex->cmds = malloc(sizeof(t_cmd) * pipex->size);
-	if (!pipex->cmds)
+	if (!pipex->pid || !pipex->pipes || !pipex->cmds)
 		malloc_protect(pipex, NULL);
 	separate_cmd_arguments(pipex, argv);
+	while (i < pipex->size - 1)
+	{
+		pipex->pipes[i] = malloc(sizeof(int) * 2);
+		if (!pipex->pipes[i])
+			malloc_protect(pipex, NULL);
+		i++;
+	}
 }

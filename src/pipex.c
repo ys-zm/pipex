@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@codam.nl>                      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/14 16:35:00 by yzaim         #+#    #+#                 */
-/*   Updated: 2023/04/18 12:28:18 by yzaim         ########   odam.nl         */
+/*   Updated: 2023/04/18 14:59:31 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,16 +61,13 @@ int	main(int argc, char **argv, char **envp)
 {
 	int		files[2];
 	int		status;
-	int		i;
 
-	i = 0;
 	if (argc != 5)
 	{
 		ft_printf("Wrong input.\n");
 		ft_printf("Usage: ./pipex <infile> <cmd1> ... <cmdn> <outfile>\n");
 		exit(EXIT_FAILURE);
 	}
-	
 	files[IN] = open(argv[1], O_RDONLY);
 	files[OUT] = open(argv[4], O_TRUNC | O_WRONLY | O_CREAT, 0664);
 	if (files[IN] < 0)
@@ -79,18 +76,3 @@ int	main(int argc, char **argv, char **envp)
 	exit_pipes(status);
 	return (0);
 }
-
-
-// int main(int argc, char *argv[], char *envp[])
-// {
-// 	(void)argc;
-// 	(void)argv;
-// 	char *args[] = {
-// 		" ",
-// 		NULL
-// 	};
-
-// 	int ret = execve(NULL, args, envp);
-// 	printf("ret %d\n", ret);
-// 	return 0;
-// }

@@ -1,0 +1,2 @@
+use perror to use the normal error msg.
+protect open.

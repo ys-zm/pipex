@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@codam.nl>                      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/14 16:32:26 by yzaim         #+#    #+#                 */
-/*   Updated: 2023/04/18 11:31:34 by yzaim         ########   odam.nl         */
+/*   Updated: 2023/04/18 23:00:14 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 void	ft_error_msg(const char *str, int error)
 {
-	perror(str);
+	(void)str;
+	perror("pipex: ");
 	exit(error);
 }
 
