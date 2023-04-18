@@ -67,8 +67,8 @@ re: fclean all
 rere: fclean depclean all
 
 mem:
-	memdetect/memdetect.sh . $(GCC_FLAGS) $(LIBFT) $(INCLUDES) --exclude test.c try_outs.c src -a "infile cat \"wc -l\" outfile"
+	memdetect/memdetect.sh . $(GCC_FLAGS) $(LIBFT) $(INCLUDES) --exclude test.c try_outs.c bonus -a "infile cat \"wc -l\" outfile"
 run: all
-	./pipex infile cat " " outfile
+	./pipex infile "cat" "ls -la" outfile
 
 .PHONY: all re clean fclean bonus rere 

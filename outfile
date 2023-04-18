@@ -1,15 +1,4 @@
-[1;34m(MALLOC_WRAPPER 18) [2;37mcheck_env_paths -> ft_strjoin allocated 24 bytes at 0x7ff7fbc039d0[0m
-[1;34m(MALLOC_WRAPPER 19) [2;37mcheck_env_paths -> ft_strjoin allocated 26 bytes at 0x7ff7fbc039f0[0m
-[1;34m(FREE_WRAPPER)	[2;37m check_access -> check_env_paths free 0x7ff7fbc039d0[0m
-[1;34m(FREE_WRAPPER)	[2;37m check_access -> check_env_paths free 0x7ff7fbc039f0[0m
-[1;34m(MALLOC_WRAPPER 20) [2;37mcheck_env_paths -> ft_strjoin allocated 16 bytes at 0x7ff7fbc03920[0m
-[1;34m(MALLOC_WRAPPER 21) [2;37mcheck_env_paths -> ft_strjoin allocated 18 bytes at 0x7ff7fbc039f0[0m
-[1;34m(FREE_WRAPPER)	[2;37m check_access -> check_env_paths free 0x7ff7fbc03920[0m
-[1;34m(FREE_WRAPPER)	[2;37m check_access -> check_env_paths free 0x7ff7fbc039f0[0m
-[1;34m(MALLOC_WRAPPER 22) [2;37mcheck_env_paths -> ft_strjoin allocated 10 bytes at 0x7ff7fbc03920[0m
-[1;34m(MALLOC_WRAPPER 23) [2;37mcheck_env_paths -> ft_strjoin allocated 12 bytes at 0x7ff7fbc039e0[0m
-[1;34m(FREE_WRAPPER)	[2;37m check_access -> check_env_paths free 0x7ff7fbc03920[0m
-      17
+      30
 [1;34m(MALLOC_REPORT)[0m
 	Malloc calls: [34m0[0m
 	Free calls: [34m0[0m

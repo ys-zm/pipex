@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@codam.nl>                      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/14 16:35:00 by yzaim         #+#    #+#                 */
-/*   Updated: 2023/04/14 20:24:51 by yzaim         ########   odam.nl         */
+/*   Updated: 2023/04/18 12:09:11 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,10 @@ void	create_pipes(t_pipex *pipex)
 	while (i < pipex->size - 1)
 	{
 		if (pipe(pipex->pipes[i].fd) == -1)
+		{
+			//ft_free_all(pipex);
 			ft_error_msg("Opening pipes failed.\n", 1);
+		}
 		i++;
 	}
 }
@@ -34,7 +37,7 @@ int main(int argc, char **argv, char **envp)
 {
 	t_pipex	pipex;
 	
-	//atexit(&ft_leaks);
+	atexit(&ft_leaks);
 	if (argc < 5)
 	{
 		ft_printf("Wrong input.\n");

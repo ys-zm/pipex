@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@codam.nl>                      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/14 16:35:00 by yzaim         #+#    #+#                 */
-/*   Updated: 2023/04/17 20:27:13 by yzaim         ########   odam.nl         */
+/*   Updated: 2023/04/18 12:02:25 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,11 @@ void    path_parsing(t_pipex *pipex, char **envp)
     if (path_temp)
     {
         path_env = ft_substr(path_temp, 5, ft_strlen(path_temp));
+        if (!path_env)
+            malloc_protect(pipex, NULL);
         pipex->paths = ft_split(path_env, ':');
+        if (!pipex->paths)
+            malloc_protect(pipex, NULL);
         free(path_env);
     }
     else

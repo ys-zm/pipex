@@ -30,7 +30,7 @@ typedef struct s_pipex
     t_cmd   *cmds;
     int     fd_in;
     int     fd_out;
-    int     *pid;
+    pid_t     *pid;
     int     size;
     t_fd    *pipes;
     // int     fd_out_pos;
@@ -68,5 +68,6 @@ void    ft_error_msg(const char *str, int error);
 void    exit_pipes(t_pipex *pipex);
 void    print_array(char **array);
 void	malloc_protect(t_pipex *pipex, void	*var);
+void    ft_free_all(t_pipex *pipex);
 
 #endif

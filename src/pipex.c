@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@codam.nl>                      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/14 16:35:00 by yzaim         #+#    #+#                 */
-/*   Updated: 2023/04/17 19:12:25 by yzaim         ########   odam.nl         */
+/*   Updated: 2023/04/18 12:28:18 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ int	main(int argc, char **argv, char **envp)
 		ft_printf("Usage: ./pipex <infile> <cmd1> ... <cmdn> <outfile>\n");
 		exit(EXIT_FAILURE);
 	}
+	
 	files[IN] = open(argv[1], O_RDONLY);
 	files[OUT] = open(argv[4], O_TRUNC | O_WRONLY | O_CREAT, 0664);
 	if (files[IN] < 0)

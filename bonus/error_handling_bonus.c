@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@codam.nl>                      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/14 16:35:00 by yzaim         #+#    #+#                 */
-/*   Updated: 2023/04/17 21:04:14 by yzaim         ########   odam.nl         */
+/*   Updated: 2023/04/18 12:15:43 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ void    free_cmd_struct(t_pipex *pipex)
     int i;
     int j;
 
-    j = 0;
     i = 0;
     while (i < pipex->size)
     {
+        j = 0;
         while (pipex->cmds[i].args[j])
         {
             free(pipex->cmds[i].args[j]);
@@ -34,6 +34,7 @@ void    free_cmd_struct(t_pipex *pipex)
         }
         i++;
     }
+    free(pipex->cmds);
 }
 
 void    free_fd_struct(t_pipex *pipex)
@@ -46,7 +47,6 @@ void    free_fd_struct(t_pipex *pipex)
         free(pipex->pipes[i].fd);
         i++;
     }
-    
 }
 
 void    free_strings(char **arr)
@@ -59,13 +59,27 @@ void    free_strings(char **arr)
         free(arr[i]);
         i++;
     }
+    free(arr);
 }
+
+// void    free_pids(int *pid, int size)
+// {
+//     int i;
+
+//     i = 0;
+//     while (i < size)
+//     {
+//         free(pid[i]);
+//         i++;
+//     }
+// }
 
 void    ft_free_all(t_pipex *pipex)
 {
     free_cmd_struct(pipex);
     free_fd_struct(pipex);
     free_strings(pipex->paths);
+    // free_pids(pipex->pid, pipex->size);
     free(pipex->pid);
 }
 
@@ -90,7 +104,9 @@ void    print_array(char **array)
 
 void	malloc_protect(t_pipex *pipex, void	*var)
 {
-    ft_free_all(pipex);
 	if (!var)
-		ft_error_msg("", 1);
+	{
+        ft_free_all(pipex);
+        ft_error_msg("", 1);
+    }
 }

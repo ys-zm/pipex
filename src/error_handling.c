@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@codam.nl>                      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/14 16:32:26 by yzaim         #+#    #+#                 */
-/*   Updated: 2023/04/17 18:46:04 by yzaim         ########   odam.nl         */
+/*   Updated: 2023/04/18 11:31:34 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,10 @@ void	exit_pipes(int status)
 void	malloc_protect(void	*var)
 {
 	if (!var)
+	{
+		free(var);
 		ft_error_msg("", 1);
+	}
 }
 
 void	print_array(char **array)
